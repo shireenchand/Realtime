@@ -16,27 +16,31 @@ i3d.load_state_dict(torch.load("nslt_2000_065846_0.447803.pt",map_location=torch
 i3d = nn.DataParallel(i3d)
 i3d.eval()
 
-vid = cv2.VideoCapture(0)
+video_path = "/Users/shireen/Documents/sign_language/videos/14837.mp4"
+vid = cv2.VideoCapture(video_path)
 cnt = 0
 frames = []
+# pred = Predict(vid,i3d)
 while(True):
     ret,frame = vid.read()
     cnt += 1
-    cv2.imshow("frame",frame)
+    # cv2.imshow("frame",frame)
     frames.append(frame)
-    if cnt == 64:
-        print("64 Frames")
-        pred = Predict(frames,i3d)
-        p = pred.execute()
-        print(p)
-        cnt = 0
-        frames = []
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
+    # if cnt == 64:
+    #     print("64 Frames")
+    #     pred = Predict(frames,i3d)
+    #     p = pred.execute()
+    #     print(p)
+    #     cnt = 0
+    #     frames = []
+    # if cv2.waitKey(1) & 0xFF == ord('q'):
+        # break
+print(frames)
+pred = Predict(frames,i3d)
 vid.release()
 cv2.destroyAllWindows()
     # print(len(frames))
+
 
 
 

@@ -125,4 +125,3 @@ class Predict():
 		# print(out_labels[-1])
 		return(out_labels[-1])
 
-
