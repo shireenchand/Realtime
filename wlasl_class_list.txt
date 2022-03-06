@@ -25,7 +25,7 @@
 24	many
 25	mother
 26	now
-27	orange
+27	hello
 28	table
 29	thanksgiving
 30	what

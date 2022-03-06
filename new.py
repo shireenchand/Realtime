@@ -41,6 +41,7 @@ global p
 global words
 words = []
 p = "hello"
+
 def send(frames,i3d):
   pred = Predict(frames,i3d)
   p = pred.execute()
@@ -100,13 +101,14 @@ while(True):
       # print(text_words)
       print(words)
       text_words = [map[num] for num in words]
+      words = []
       # text_words = previous
       s = " ".join(text_words)
       print(s)
       res=correct_sent_tc_api(s)
       res_dict=json.loads(res)
       res = res_dict["rewrite"]
-      print("Deatils :",res)
+      print("Details :",res)
 
       # print("Final :",tool.correct(res_dict['rewrite']))
 

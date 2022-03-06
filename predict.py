@@ -95,14 +95,15 @@ class Predict():
 		start_frame = 1
 		total_frames = 64
 		nf = 173
-		root = {'word':'/content/videos'}
+		# root = {'word':'/content/videos'}
 		start_f = random.randint(0, nf - total_frames - 1) + start_frame
 		imgs = self.load_rgb_frames_from_video(frames_given=self.frames_given, start=start_f, num=total_frames)
 		test_transforms = transforms.Compose([videotransforms.CenterCrop(224)])
 		total_frames = 64
 		if imgs.shape[0] == 0:
 		  imgs = np.zeros((total_frames, 224, 224, 3), dtype=np.float32)
-		  print(os.path.join(root['word'], "vid" + '.mp4') + ' could not be read for some reason.  Skipping')
+		  # print(os.path.join(root['word'], "vid" + '.mp4') + ' could not be read for some reason.  Skipping')
+		  print("Frames could not be read")
 		  label = -1
 		else:
 		            # If we don't end up having 64 frames, then we pad the video sequence
