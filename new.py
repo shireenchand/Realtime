@@ -10,10 +10,10 @@ import time
 import threading
 import json
 import requests
-import language_tool_python
+# import language_tool_python
 
 
-tool = language_tool_python.LanguageTool('en-US')
+# tool = language_tool_python.LanguageTool('en-US')
 def correct_sent_tc_api(sent):
   url = "https://rewriter-paraphraser-text-changer-multi-language.p.rapidapi.com/rewrite"
   
@@ -21,12 +21,21 @@ def correct_sent_tc_api(sent):
   headers = {
       'content-type': "application/json",
       'x-rapidapi-host': "rewriter-paraphraser-text-changer-multi-language.p.rapidapi.com",
-      'x-rapidapi-key': "fa19dcd5e4mshc0d859752f3a27cp1469e6jsn82ced550c9a3"
+      'x-rapidapi-key': "ac09d369admsh68d8a0d46565964p12a32cjsn1e6a2f83ac0b"
       }
   response = requests.request("POST", url, data=payload, headers=headers)
   return response.text
 
+coordinates = (100,100)
+font = cv2.FONT_HERSHEY_SIMPLEX
+fontScale = 1
+color = (255,0,255)
+thickness = 2
+global res
+res = "Detecting....."
 
+global previous
+previous = []
 
 global p
 global words
@@ -61,6 +70,8 @@ x = threading.Thread()
 while(True):
     ret,frame = vid.read()
     cnt += 1
+    cv2.putText(frame, "Press e to finish a sentence", (100,20), font, fontScale, color, thickness, cv2.LINE_AA)
+    cv2.putText(frame, res, coordinates, font, fontScale, color, thickness, cv2.LINE_AA)
     cv2.imshow("frame",frame)
     # cv2.putText(frame, "hello", (10,500), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 4, cv2.LINE_AA)
     frames.append(frame)
@@ -80,13 +91,24 @@ while(True):
         break
     if cv2.waitKey(1) & 0xFF == ord("e"):
       print("end")
-      text_words = [map[num] for num in words]
+      res = "Predicting......."
+      # if words == []:
+      #   text_words = previous
+      # else:
+      #   text_words = [map[num] for num in words]
+      # words = []
       # print(text_words)
+      print(words)
+      text_words = [map[num] for num in words]
+      # text_words = previous
       s = " ".join(text_words)
+      print(s)
       res=correct_sent_tc_api(s)
       res_dict=json.loads(res)
+      res = res_dict["rewrite"]
       print("Deatils :",res)
-      print("Final :",tool.correct(res_dict['rewrite']))
+
+      # print("Final :",tool.correct(res_dict['rewrite']))
 
 vid.release()
 cv2.destroyAllWindows()
